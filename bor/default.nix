@@ -1,5 +1,7 @@
 { lib, stdenv, buildGoModule, fetchFromGitHub, libobjc, IOKit }:
 
+# N.B. Adapted from Nixpkgs' go-ethereum package.
+
 let
   # A list of binaries to put into separate outputs
   bins = [
