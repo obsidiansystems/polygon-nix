@@ -3,7 +3,7 @@
   "repo": "heimdall",
   "branch": "master",
   "private": false,
-  "tag": "v0.2.1-mumbai",
-  "rev": "3ff5d31b1d1cccdbc86186025ce7a231939cb4a7",
-  "sha256": "1kmbz9351v43wjwi3ay09kp0rml01b07whvkrifz2kxx5anq49gz"
+  "tag": "v0.2.2",
+  "rev": "9ceee1a78f274fbf2fefc4242f8773ed95cb180c",
+  "sha256": "1g7mn33159h0sqmr66jfzbwc54kf80yq23xbnfqky66h2b6s6vnr"
 }

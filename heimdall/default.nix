@@ -1,4 +1,4 @@
-{ lib, stdenv, buildGoModule, fetchFromGitHub }:
+{ lib, stdenv, buildGoModule, fetchFromGitHub, network ? "mainnet" }:
 buildGoModule rec {
   pname = "polygon-heimdall";
   version = (builtins.fromJSON (builtins.readFile ./thunk/github.json)).tag;
@@ -12,7 +12,14 @@ buildGoModule rec {
 
   outputs = [ "out" ];
 
+  preBuild = ''
+    go run helper/heimdall-params.template.go ${network}
+  '';
+
   subPackages = [
+    "bor"
+    "cmd/heimdallcli"
+    "cmd/heimdalld"
     "common"
     "contracts/erc20"
     "contracts/rootchain"
@@ -24,8 +31,7 @@ buildGoModule rec {
     "contracts/validatorset"
     "file"
     "gov"
-    "cmd/heimdallcli"
-    "cmd/heimdalld"
+    "helper"
   ];
 
 }
