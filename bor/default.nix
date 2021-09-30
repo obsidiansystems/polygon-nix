@@ -5,8 +5,7 @@
 let
   # A list of binaries to put into separate outputs
   bins = [
-    "geth"
-    "clef"
+    "bor"
   ];
 
 in buildGoModule rec {
@@ -23,7 +22,9 @@ in buildGoModule rec {
   outputs = [ "out" ] ++ bins;
 
   # Move binaries to separate outputs and symlink them back to $out
-  postInstall = lib.concatStringsSep "\n" (
+  postInstall = ''
+    cp $out/bin/geth $out/bin/bor
+  '' + lib.concatStringsSep "\n" (
     builtins.map (bin: "mkdir -p \$${bin}/bin && mv $out/bin/${bin} \$${bin}/bin/ && ln -s \$${bin}/bin/${bin} $out/bin/") bins
   );
 
