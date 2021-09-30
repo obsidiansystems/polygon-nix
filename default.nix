@@ -1,5 +1,6 @@
 { pkgs ? import ./dep/nixpkgs {}
 , lib ? pkgs.lib
+, network ? "mainnet"
 }:
 
 lib.makeScope pkgs.newScope (self: {
@@ -8,5 +9,6 @@ lib.makeScope pkgs.newScope (self: {
     inherit (pkgs.darwin.apple_sdk.frameworks) IOKit;
   };
   heimdall = self.callPackage ./heimdall {
+    network = network;
   };
 })
