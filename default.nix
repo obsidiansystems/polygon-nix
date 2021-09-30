@@ -7,4 +7,6 @@ lib.makeScope pkgs.newScope (self: {
     inherit (pkgs.darwin) libobjc;
     inherit (pkgs.darwin.apple_sdk.frameworks) IOKit;
   };
+  heimdall = self.callPackage ./heimdall {
+  };
 })
