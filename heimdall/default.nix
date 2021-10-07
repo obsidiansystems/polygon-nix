@@ -17,6 +17,8 @@ in
 
     preBuild = ''
       go run helper/heimdall-params.template.go ${network}
+      substituteInPlace ./docker/Dockerfile* \
+        --replace "./logs" "/root/logs"
     '';
 
     subPackages = [
