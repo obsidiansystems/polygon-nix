@@ -21,6 +21,9 @@ jobs:
           cd devnet
           nix-shell ../ -A matic-cli-shell --run "matic-cli setup devnet <<< 15001"
 
+      - name: Debug print
+        run: ls -lR
+
       - name: Setup Bor
         run: |
           cd devnet
