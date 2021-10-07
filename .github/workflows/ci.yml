@@ -19,24 +19,24 @@ jobs:
         run: |
           mkdir devnet
           cd devnet
-          nix-shell ../ -A matic-cli-shell --run "matic-cli setup devnet"
-
-      - name: Run ganache
-        run: |
-          cd devnet
-          nix-shell ../ -A matic-cli-shell --run "bash docker-ganache-start.sh" &
-
-      - name: Run Heimdall
-        run: |
-          cd devnet
-          nix-shell ../ -A matic-cli-shell --run "bash docker-heimdall-start-all.sh" &
+          nix-shell ../ -A matic-cli-shell --run "matic-cli setup devnet < 15001"
 
       - name: Setup Bor
         run: |
           cd devnet
-          nix-shell ../ -A matic-cli-shell --run "bash docker-bor-setup.sh" &
+          nix-shell ../ -A matic-cli-shell --run "bash ../docker-bor-setup.sh"
+
+      - name: Run ganache
+        run: |
+          cd devnet
+          nix-shell ../ -A matic-cli-shell --run "bash ../docker-ganache-start.sh" &
+
+      - name: Run Heimdall
+        run: |
+          cd devnet
+          nix-shell ../ -A matic-cli-shell --run "bash ../docker-heimdall-start-all.sh" &
 
       - name: Run Bor
         run: |
           cd devnet
-          nix-shell ../ -A matic-cli-shell --run "bash docker-bor-start-all.sh" &
+          nix-shell ../ -A matic-cli-shell --run "bash ../docker-bor-start-all.sh" &
