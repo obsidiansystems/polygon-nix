@@ -1,0 +1,26 @@
+diff --git a/docker/Dockerfile b/docker/Dockerfile
+index 09a9ca26..1990c3a8 100644
+--- a/docker/Dockerfile
++++ b/docker/Dockerfile
+@@ -25,7 +25,7 @@ ENV GOBIN $GOPATH/bin
+ RUN make install
+ 
+ # add volumes
+-VOLUME [ "/root/.heimdalld", "./logs" ]
++VOLUME [ "/root/.heimdalld", "/logs" ]
+ 
+ # expose ports
+ EXPOSE 1317 26656 26657
+diff --git a/docker/Dockerfile.develop b/docker/Dockerfile.develop
+index 9240e576..dae5c9ac 100644
+--- a/docker/Dockerfile.develop
++++ b/docker/Dockerfile.develop
+@@ -25,7 +25,7 @@ ENV GOBIN $GOPATH/bin
+ RUN make install
+ 
+ # add volumes
+-VOLUME [ "/root/.heimdalld", "./logs" ]
++VOLUME [ "/root/.heimdalld", "/logs" ]
+ 
+ # expose ports
+ EXPOSE 1317 26656 26657

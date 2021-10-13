@@ -7016,7 +7016,7 @@ let
     name = "_at_maticnetwork_slash_matic-cli";
     packageName = "@maticnetwork/matic-cli";
     version = "0.0.4";
-    src = import ./thunk/thunk.nix;
+    src = import ./src.nix { inherit stdenv; };
     dependencies = [
       sources."@babel/compat-data-7.13.11"
       (sources."@babel/generator-7.13.9" // {

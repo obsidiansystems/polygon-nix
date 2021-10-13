@@ -1,0 +1,20 @@
+diff --git a/src/setup/devnet/templates/docker/docker-compose.yml.njk b/src/setup/devnet/templates/docker/docker-compose.yml.njk
+index b38c5ec..e6307ec 100644
+--- a/src/setup/devnet/templates/docker/docker-compose.yml.njk
++++ b/src/setup/devnet/templates/docker/docker-compose.yml.njk
+@@ -26,7 +26,7 @@ services:
+       - devnet-network
+ 
+   heimdall{{ node }}:
+-    image: "maticnetwork/heimdall:{{ obj.config.heimdallBranch }}"
++    image: "{{ obj.config.heimdallImage }}"
+     container_name: heimdall{{ node }}
+     depends_on:
+       - rabbit{{ node }}
+@@ -59,4 +59,4 @@ services:
+       - "8545:8545"
+       - "8546:8546"
+     {% endif %}
+-{% endfor %}
+\ No newline at end of file
++{% endfor %}

@@ -3,24 +3,14 @@ Deploy a Polygon Node with Nix instead of Ansible
 
 ## Using matic-cli
 
-You'll need to install docker version 19 on your system (the heimdall image does not work in later versions, see
-https://github.com/maticnetwork/heimdall/issues/729).
-
+You need to have Docker installed and running on your system.
 For NixOS systems, add something like this to your system config:
 
 ```nix
-let
-  nixos1909 = import (builtins.fetchTarball {
-    name = "nixos-19.09";
-    url = "https://github.com/nixos/nixpkgs/archive/75f4ba05c63be3f147bcc2f7bd4ba1f029cedcb1.tar.gz";
-    sha256 = "157c64220lf825ll4c0cxsdwg7cxqdx4z559fdp7kpz0g6p8fhhr";
-  }) {};
-in {
+{
+  virtualisation.docker.enable = true;
+  # Only add this if you run into cgroup issues when launching containers (happens with v19)
   systemd.enableUnifiedCgroupHierarchy = false;
-  virtualisation.docker = {
-    enable = true;
-    package = nixos1909.docker;
-  };
 }
 ```
 
@@ -32,9 +22,12 @@ Setup the network in a fresh directory as such:
 ```shell
 $ mkdir devnet
 $ cd devnet
+$ echo '{"heimdallImage": "heimdall:fix-logs"}' > config.json
 $ nix-shell /path/to/polygon-nix -A matic-cli-shell
-[nix-shell:/path/to/devnet]$ matic-cli setup devnet
+[nix-shell:devnet]$ docker load < $(nix-build /path/to/polygon-nix -A heimdall.docker)
+[nix-shell:devnet]$ matic-cli setup devnet
 ```
+
 
 ### Running the network
 
