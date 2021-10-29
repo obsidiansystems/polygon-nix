@@ -21,6 +21,7 @@ in
 
     subPackages = [
       "bor"
+      "bridge"
       "cmd/heimdallcli"
       "cmd/heimdalld"
       "common"
