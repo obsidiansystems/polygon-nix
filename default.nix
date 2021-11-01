@@ -24,6 +24,7 @@ let
   };
 
 in lib.makeScope pkgs.newScope (self: rec {
+  launch-src = launchSrc;
   bor = self.callPackage ./bor {
     inherit (pkgs.darwin) libobjc;
     inherit (pkgs.darwin.apple_sdk.frameworks) IOKit;
@@ -152,10 +153,19 @@ in lib.makeScope pkgs.newScope (self: rec {
     ${heimdall}/bin/bridge start --all --home .
   '';
   # Patched heimdall testnet files
-  heimdall-testnet = pkgs.stdenv.mkDerivation {
+  heimdall-testnet = {
+    p2p_laddr_port ? 26656,
+    rpc_laddr_port ? 26657,
+    proxy_app_port ? 26658,
+    prof_laddr_port ? 6060,
+    eth_rpc_url ? "http://localhost:9545",
+    bor_rpc_url ? "http://localhost:8545",
+    heimdall_rest_server_port ? 1317,
+  }: pkgs.stdenv.mkDerivation {
     name = "heimdall-testnet";
     src = launchSrc;
     buildInputs = [ heimdall ];
+    # TODO AMQP endpoint? 5672
     buildPhase = ''
       NETWORK=./testnet-v4
       LAUNCH_NODE_DIR=$NETWORK/sentry/sentry
@@ -165,10 +175,18 @@ in lib.makeScope pkgs.newScope (self: rec {
       heimdalld init --home $HEIMDALL_DIR
       cp -rf $LAUNCH_NODE_DIR/heimdall/config/genesis.json $HEIMDALL_DIR/config/genesis.json
       # 'Setup config files' section of full node binaries docs
+      # Also make ports configurable
       substituteInPlace $HEIMDALL_DIR/config/config.toml \
-        --replace 'seeds = ""' 'seeds="4cd60c1d76e44b05f7dfd8bab3f447b119e87042@54.147.31.250:26656,b18bbe1f3d8576f4b73d9b18976e71c65e839149@34.226.134.117:26656"'
-      # substituteInPlace $HEIMDALL_DIR/config/heimdall-config.toml \
-      #   --replace 'eth_rpc_url = "http://localhost:9545"' 'eth_rpc_url="https://goerli.infura.io/v3/7e72bb77c5f14d2e9a11b0ce53f4cfc2"'
+        --replace 'seeds = ""' 'seeds="4cd60c1d76e44b05f7dfd8bab3f447b119e87042@54.147.31.250:26656,b18bbe1f3d8576f4b73d9b18976e71c65e839149@34.226.134.117:26656"' \
+        --replace 'proxy_app = "tcp://127.0.0.1:26658"' 'proxy_app = "tcp://127.0.0.1:${toString proxy_app_port}"' \
+        --replace 'prof_laddr = "localhost:6060"' 'prof_laddr = "localhost:${toString prof_laddr_port}"' \
+        --replace 'laddr = "tcp://127.0.0.1:26657"' 'laddr = "tcp://127.0.0.1:${toString rpc_laddr_port}"' \
+        --replace 'laddr = "tcp://0.0.0.0:26656"' 'laddr = "tcp://0.0.0.0:${toString p2p_laddr_port}"'
+      substituteInPlace $HEIMDALL_DIR/config/heimdall-config.toml \
+        --replace 'eth_rpc_url = "http://localhost:9545"' 'eth_rpc_url = "${eth_rpc_url}"' \
+        --replace 'bor_rpc_url = "http://localhost:8545"' 'bor_rpc_url = "${bor_rpc_url}"' \
+        --replace 'tendermint_rpc_url = "http://0.0.0.0:26657"' 'tendermint_rpc_url = "http://0.0.0.0:${toString rpc_laddr_port}"' \
+        --replace 'heimdall_rest_server = "http://0.0.0.0:1317"' 'heimdall_rest_server = "http://0.0.0.0:${toString heimdall_rest_server_port}"'
     '';
     installPhase = ''
       mkdir $out
