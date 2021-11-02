@@ -1,6 +1,37 @@
 # polygon-nix
 Deploy a Polygon Node with Nix instead of Ansible
 
+## NixOS Service
+
+Clone this repo under `/etc/nixos/polygon-nix`, and add the following to your NixOS configuration:
+
+```nix
+{
+  imports = [ ./hardware-configuration.nix ./polygon-nix/service.nix ];
+
+  services.polygon = {
+    enable = true;
+    # The ports below are all the default values, but you can change them if necessary.
+    geth.ports = {
+      http = 9545;
+      listen = 30300;
+    };
+    bor.ports = {
+      http = 8545;
+      listen = 30303;
+      prof = 7071;
+    };
+    heimdall.ports = {
+      p2p = 26656;
+      rpc = 26657;
+      listen = 26658;
+      prof = 6060;
+      restServer = 1317;
+    };
+  };
+}
+```
+
 ## Using matic-cli
 
 You'll need to install docker version 19 on your system (the heimdall image does not work in later versions, see
