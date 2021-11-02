@@ -14,7 +14,7 @@ let
     rpc_laddr_port = cfg.heimdall.ports.rpc;
     proxy_app_port = cfg.heimdall.ports.listen;
     prof_laddr_port = cfg.heimdall.ports.prof;
-    eth_rpc_url = "http://localhost:9545";
+    eth_rpc_url = "http://localhost:${toString cfg.geth.ports.http}";
     bor_rpc_url = "http://localhost:${toString cfg.bor.ports.http}";
     heimdall_rest_server_port = cfg.heimdall.ports.restServer;
   };
@@ -28,7 +28,17 @@ with pkgs.lib;
       type = types.str;
       default = "mumbai";
     };
-    # These defaults match the original heimdall config files
+    # These defaults match the original heimdall/bor config files
+    geth.ports = {
+      http = mkOption {
+        type = types.int;
+        default = 9545;
+      };
+      listen = mkOption {
+        type = types.int;
+        default = 30300;
+      };
+    };
     heimdall.ports = {
       p2p = mkOption {
         type = types.int;
@@ -69,8 +79,33 @@ with pkgs.lib;
 
   config = mkIf cfg.enable {
     systemd.services = assert (cfg.network == "mumbai"); {
+      "polygon-${cfg.network}-geth" = {
+        wantedBy = [ "multi-user.target" ];
+        after = [ "network.target" ];
+        description = "Polygon ${cfg.network} Ethereum Node";
+        preStart = ''
+          mkdir -p ${serviceDir}/geth
+        '';
+        serviceConfig = {
+          Type = "simple";
+          ProtectHome = "yes";
+          ProtectSystem = "full";
+          Restart = "always";
+          RestartSec = 30;
+          # I'm not sure which of these address options is actually used, the
+          # addresses are also specified in the config files.
+          ExecStart = ''
+            ${pkgs.go-ethereum}/bin/geth \
+              --goerli --syncmode full \
+              --port ${toString cfg.geth.ports.listen} \
+              --http --http.port ${toString cfg.geth.ports.http} \
+              --datadir ${serviceDir}/geth
+          '';
+        };
+      };
       "polygon-${cfg.network}-heimdalld" = {
         wantedBy = [ "multi-user.target" ];
+        requires = [ "polygon-${cfg.network}-geth.service" ];
         after = [ "network.target" ];
         description = "Polygon ${cfg.network} Heimdall Node";
         # TODO This will regenerate keys and it probably shouldn't
