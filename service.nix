@@ -155,7 +155,7 @@ with pkgs.lib;
       };
       "polygon-${cfg.network}-bor" = {
         wantedBy = [ "multi-user.target" ];
-        requires = [ "polygon-${cfg.network}-heimdalld.service" ];
+        requires = [ "polygon-${cfg.network}-heimdalld-rest-server.service" ];
         description = "Polygon ${cfg.network} Bor Node";
         # TODO This will regenerate keys and it probably shouldn't
         preStart = ''
