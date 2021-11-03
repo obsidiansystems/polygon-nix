@@ -32,6 +32,20 @@ Clone this repo under `/etc/nixos/polygon-nix`, and add the following to your Ni
 }
 ```
 
+After a `nixos-rebuild switch`, the nodes will run as systemd services. You can monitor each of the components with:
+
+```shell
+journalctl --unit polygon-mumbai-geth.service --follow
+journalctl --unit polygon-mumbai-heimdalld.service --follow
+journalctl --unit polygon-mumbai-heimdalld-rest-server.service --follow
+journalctl --unit polygon-mumbai-bor.service --follow
+```
+
+Note that Heimdall can take as long as a week to fully sync, so you will probably want to use the snapshots available
+from https://snapshots.matic.today/ in order to reduce sync time to a few hours. There are instructions
+[here](https://forum.matic.network/t/snapshot-instructions-for-heimdall-and-bor/2278) which will
+work, but you need to put the data in a different place: the services store data under `/var/lib/polygon/mumbai`.
+
 ## Using matic-cli
 
 You need to have Docker installed and running on your system.
