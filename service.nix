@@ -181,6 +181,7 @@ with pkgs.lib;
           ExecStart = ''
             ${polygon.bor}/bin/bor \
               --datadir ${serviceDir}/bor/data \
+              --bor.heimdall "http://localhost:${toString cfg.heimdall.ports.restServer}" \
               --port ${toString cfg.bor.ports.listen} \
               --http --http.addr '0.0.0.0' \
               --http.vhosts '*' \
