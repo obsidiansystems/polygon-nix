@@ -28,6 +28,10 @@ with pkgs.lib;
       type = types.str;
       default = "mumbai";
     };
+    ip = mkOption {
+      type = types.str;
+      default = "127.0.0.1";
+    };
     # These defaults match the original heimdall/bor config files
     geth.ports = {
       http = mkOption {
@@ -163,8 +167,10 @@ with pkgs.lib;
           # From launch/node/bor/setup.sh does for testnet/sentry nodes
           mkdir -p ${serviceDir}/bor/keystore
           ${polygon.bor}/bin/bor --datadir ${serviceDir}/bor/data init $LAUNCH_NODE_DIR/bor/genesis.json
-          cp $LAUNCH_NODE_DIR/bor/static-nodes.json ${serviceDir}/bor/data/bor/static-nodes.json
           ${polygon.bor}/bin/bootnode -genkey ${serviceDir}/bor/data/nodekey
+          # Write static-nodes.json
+          ENODE=$(${polygon.bor}/bin/bootnode -nodekey ${serviceDir}/bor/data/nodekey -writeaddress)
+          echo "[\"enode://$ENODE@${cfg.ip}:${toString cfg.bor.ports.listen}\"]" > ${serviceDir}/bor/data/bor/static-nodes.json
         '';
         serviceConfig = {
           Type = "simple";
