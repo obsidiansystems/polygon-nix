@@ -44,7 +44,7 @@ in lib.makeScope pkgs.newScope (self: rec {
   }: pkgs.stdenv.mkDerivation {
     name = "heimdall-testnet";
     src = launchSrc;
-    buildInputs = [ heimdall ];
+    buildInputs = [ heimdall.gopkg ];
     # TODO AMQP endpoint? 5672
     buildPhase = ''
       NETWORK=./testnet-v4

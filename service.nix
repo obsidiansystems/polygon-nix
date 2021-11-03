@@ -112,7 +112,7 @@ with pkgs.lib;
         preStart = ''
           mkdir -p ${serviceDir}/heimdall
           cd ${serviceDir}/heimdall
-          ${polygon.heimdall}/bin/heimdalld init --home .
+          ${polygon.heimdall.gopkg}/bin/heimdalld init --home .
           cp -fr ${heimdall-testnet}/* .
         '';
         serviceConfig = {
@@ -124,7 +124,7 @@ with pkgs.lib;
           # I'm not sure which of these address options is actually used, the
           # addresses are also specified in the config files.
           ExecStart = ''
-            ${polygon.heimdall}/bin/heimdalld start \
+            ${polygon.heimdall.gopkg}/bin/heimdalld start \
               --home ${serviceDir}/heimdall \
               --address "tcp://0.0.0.0:${toString cfg.heimdall.ports.listen}" \
               --proxy_app "tcp://127.0.0.1:${toString cfg.heimdall.ports.listen}" \
@@ -142,7 +142,7 @@ with pkgs.lib;
           Restart = "always";
           RestartSec = 30;
           ExecStart = ''
-            ${polygon.heimdall}/bin/heimdalld rest-server \
+            ${polygon.heimdall.gopkg}/bin/heimdalld rest-server \
               --home ${serviceDir}/heimdall \
               --laddr "tcp://0.0.0.0:${toString cfg.heimdall.ports.restServer}" \
               --node "tcp://localhost:${toString cfg.heimdall.ports.rpc}"
