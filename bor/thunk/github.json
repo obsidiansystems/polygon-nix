@@ -1,8 +1,9 @@
 {
   "owner": "maticnetwork",
   "repo": "bor",
+  "branch": "master",
   "private": false,
-  "tag": "v0.2.8",
-  "rev": "0a9bd7befd47f78f6ddd9104c5508ecdda726452",
-  "sha256": "156bs4l4jlrkfl8aws1ns7qqi4j7ymyk8av5srdsglrfadxkj0rl"
+  "tag": "v0.2.9",
+  "rev": "f020b881575ee6c2265d0560365b2a1169a3cb8b",
+  "sha256": "0gbjg2h6h510lz1cxfxnb9bwyrsirgj62x6l9hi3lanas5xsnv7c"
 }
