@@ -15,7 +15,7 @@ in buildGoModule rec {
   src = import ./thunk/thunk.nix;
 
   runVend = true;
-  vendorSha256 = "1rfg2368fgjxdqz1y0wa5iplrjwpng523and3fghs5j2430103hf";
+  vendorSha256 = "0cy83q7fbd6gdsdliv6abam39vp27wngg24lmnhpa0w92bgdcpcj";
 
   doCheck = false;
 
