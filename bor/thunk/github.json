@@ -3,7 +3,7 @@
   "repo": "bor",
   "branch": "v0.2.12-candidate",
   "private": false,
-  "tag": "v0.2.12-beta3",
-  "rev": "488ea2bcb4d9771e05b1fad12d8b86562558aab5",
-  "sha256": "185wr3gkbkizb6k8czc9pbg641jjz6x8kwcs6ahnigxsxq1q5hg0"
+  "tag": "v0.2.13-beta1",
+  "rev": "f80dc2bc0ff785a58bc707fcbfcd9ad29dd78819",
+  "sha256": "1hhrkdayw0hqm3fslwbfjxb8i43mx2w1i14hfrfrlhc9s5cqbm5l"
 }
