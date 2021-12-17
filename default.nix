@@ -19,8 +19,8 @@ let
   launchSrc = pkgs.fetchFromGitHub {
     owner = "maticnetwork";
     repo = "launch";
-    rev = "6798732cc9f326a238c00ae9e13c3e86819f5a89";
-    sha256 = "0q13y81jkvz5291p3j11wxmvf00wdvpx43v9mfzmi6swqwxp29lb";
+    rev = "c2b7ab4df1f11b2f06a2ad027ffe4a1c8ed09e5f";
+    sha256 = "0kwzpsrpgngmg61fkkac0anwh72w1j06m8zcp1jm036lszwgv7p0";
   };
 
 in lib.makeScope pkgs.newScope (self: rec {
