@@ -65,18 +65,24 @@ with pkgs.lib;
         default = 1317;
       };
     };
-    bor.ports = {
-      http = mkOption {
-        type = types.int;
-        default = 8545;
+    bor = {
+      gcmode = mkOption {
+        type = types.str;
+        default = "full";
       };
-      listen = mkOption {
-        type = types.int;
-        default = 30303;
-      };
-      prof = mkOption {
-        type = types.int;
-        default = 7071;
+      ports = {
+        http = mkOption {
+          type = types.int;
+          default = 8545;
+        };
+        listen = mkOption {
+          type = types.int;
+          default = 30303;
+        };
+        prof = mkOption {
+          type = types.int;
+          default = 7071;
+        };
       };
     };
   };
@@ -190,6 +196,7 @@ with pkgs.lib;
               --ipcpath ${serviceDir}/bor/data/bor.ipc \
               --http.api 'eth,net,web3,txpool,bor' \
               --syncmode 'full' \
+              --gcmode '${cfg.bor.gcmode}' \
               --networkid '80001' \
               --miner.gaslimit '20000000' \
               --miner.gastarget '20000000' \
