@@ -1,9 +1,9 @@
 {
-  "owner": "maticnetwork",
+  "owner": "obsidiansystems",
   "repo": "bor",
-  "branch": "v0.2.12-candidate",
+  "branch": "v0.2.15-beta2-branch",
   "private": false,
-  "tag": "v0.2.13-beta2",
-  "rev": "c227a072418626dd758ceabffd2ea7dadac6eecb",
-  "sha256": "1py3s6gf510cjnbn0dkbj5pmlmngn270nwr5z9bf30dacl41v4nj"
+  "tag": "v0.2.15-beta2",
+  "rev": "111a204bbaa0d6b1e94fa58a56c00dab8adc1652",
+  "sha256": "0254hsh19k72hw5mmac63rfrraqp7k4im4rmqgv93rl36l3hjpd8"
 }
